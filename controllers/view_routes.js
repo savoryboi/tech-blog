@@ -15,5 +15,7 @@ view_routes.get('/register', (req, res) => {
 
 view_routes.get('/posts', (req, res) => {
     res.render('posts')
-})
+});
+
+
 module.exports = view_routes;
