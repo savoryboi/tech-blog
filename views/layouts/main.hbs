@@ -5,19 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tech blog</title>
-    <link rel="stylesheet" href="/front/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Comfortaa:wght@300&family=Inspiration&family=Play&family=Source+Code+Pro:wght@200;300;400&family=Trispace:wght@100&family=VT323&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
         <nav class="navbar">
         {{#if user}}
-            <h1 class="username_display">{{user.username}}</h1>
+            <h2 class="username_display">{{user.username}}</h2>
 
         {{else}}
-            <h1 class="username_display">techblogtitles</h1>
+            <h2 class="username_display">techblogtitles</h2>
         {{/if}}
+            <div class="link-container">
+
             <a href="/login"><h2>Login</h2></a>
             <a href="/register"><h2>Register</h2></nav></a>
+            </div>
         </nav>
     </header>
 

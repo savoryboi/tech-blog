@@ -1,14 +1,16 @@
-const { resolveSoa } = require('dns');
-const db = require('../config/connection')
+const view_routes = require('express').Router();
 
-db.get('/', (req, res) => {
+
+view_routes.get('/', (req, res) => {
     res.render('index')
 });
 
-db.get('/login', (req, res) =>{
+view_routes.get('/login', (req, res) =>{
     res.render('login')
 });
 
-db.get('/register', (req, res) => {
+view_routes.get('/register', (req, res) => {
     res.render('register')
-})
+});
+
+module.exports = view_routes;
