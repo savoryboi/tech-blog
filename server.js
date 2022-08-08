@@ -6,9 +6,13 @@ const PORT = process.env.PORT || 3333;
 
 const db = require('./config/connection')
 const sesh = require('express-session');
-const {view_routes, auth_routes} = require('./controllers/view_routes');
 
 const SeqStore = require("connect-session-sequelize")(sesh.Store);
+
+require('dotenv').config();
+
+const view_routes = require('./controllers/view_routes');
+const auth_routes = require('./controllers/auth_routes')
 
 const app = express();
 
@@ -26,28 +30,29 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(
-//     sesh({
-//       // secret string to compare to
-//       secret: process.env.SESSION_SECRET,
-//       // store sesh data to DB
-//       store: new SeqStore({ db }),
-//       // if nothing is saved drop the session
-//       saveUninitialized: false,
-//       // prevent sequelize store from destroying idle sesh data
-//       resave: false,
-//       cookie: {
-//         // httpOnly: true
-//       }
-//     })
-//   );
+app.use(
+    sesh({
+      // secret string to compare to
+      secret: process.env.SESSION_SECRET,
+      // store sesh data to DB
+      store: new SeqStore({ db }),
+      // if nothing is saved drop the session
+      saveUninitialized: false,
+      // prevent sequelize store from destroying idle sesh data
+      resave: false,
+      cookie: {
+        // httpOnly: true
+      }
+    })
+  );
   
 
 app.use('/', view_routes);
+app.use('/auth', auth_routes);
 
 
-// db.sync({ force: true }).then(() => {
+db.sync({ force: false }).then(() => {
     app.listen(PORT, () => {
         console.log(`Listening on port ${PORT}!`)
     });
-// })
+});

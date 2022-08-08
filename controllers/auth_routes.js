@@ -1,8 +1,7 @@
 const auth_router = require('express').Router()
-
 const User = require("../models/User");
-
 const { isLoggedIn } = require('./helpers');
+
 
 auth_router.post('/register', isLoggedIn, (req, res) => {
     const { username, password } = req.body;
@@ -17,22 +16,68 @@ auth_router.post('/register', isLoggedIn, (req, res) => {
             username
         }
     }).then(user => {
-        req.session.errors = ["somone got that username, let's try that agan."]
-        return res.redirect('/')
+        if(user) {
+
+            req.session.errors = ["somone got that username, let's try that agan."]
+            return res.redirect('/register')
+        }
     });
 
-    // User.create(req.body)
-    //     .then(new_user => {
-    //         req.session.save(() => {
-    //           req.session.user_id = new_user.id;
-    //           res.redirect("/");
-    //         });
-    //       })
-    //       .catch(err => {
-    //         req.session.errors = err.errors.map(e => e.message);
-    //         res.redirect("/register");
-    //       })
+    User.create(req.body)
+        .then(new_user => {
+            req.session.save(() => {
+              req.session.user_id = new_user.id;
+              res.redirect("/");
+            });
+          })
+          .catch(err => {
+            req.session.errors = err.errors.map(e => e.message);
+            res.redirect("/register");
+          })
 
+});
+
+auth_router.post('/login', isLoggedIn, (req, res) => {
+
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        req.session.errors = ['double check your login info was correct and try again'];
+
+        return res.redirect('/login');
+    }
+
+    User.findOne({
+        where: {
+            username
+        }
+    }).then(async user => {
+        if (!user) {
+            req.session.errors = ['u do not exist yet'];
+            return res.redirect('/login');
+        }
+
+        const valid_pass = await user.validatePassword(password, user.password);
+
+        if(!valid_pass) {
+            req.session.errors = ['incorrect password!'];
+            res.redirect('/login');
+        }
+        req.session.save(() => {
+            req.session.user_id;
+
+            res.redirect('/');
+        });
+    });
+});
+
+auth_router.get('/logout', (req, res) => {
+    
+    if(!req.session.user_id) return res.redirect('/');
+
+    req.session.destroy(() => {
+        res.redirect('/');
+    })
 });
 
 module.exports = auth_router;
