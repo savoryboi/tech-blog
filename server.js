@@ -1,10 +1,10 @@
-const path = require('path');
 const express = require('express');
+const path = require('path');
 const { engine } = require("express-handlebars");
 
 const PORT = process.env.PORT || 3333;
-
 const db = require('./config/connection')
+
 const sesh = require('express-session');
 
 const SeqStore = require("connect-session-sequelize")(sesh.Store);

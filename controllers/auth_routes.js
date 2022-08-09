@@ -5,7 +5,7 @@ const { isLoggedIn } = require('./helpers');
 
 auth_router.post('/register', isLoggedIn, (req, res) => {
     const { username, password } = req.body;
-
+    console.log(username)
     if(!username || !password) {
         req.session.errors = ["Please check your credentials and try again."];
         return res.redirect("/register");
@@ -17,23 +17,22 @@ auth_router.post('/register', isLoggedIn, (req, res) => {
         }
     }).then(user => {
         if(user) {
-
             req.session.errors = ["somone got that username, let's try that agan."]
             return res.redirect('/register')
         }
-    });
-
-    User.create(req.body)
+        
+        User.create(req.body)
         .then(new_user => {
             req.session.save(() => {
-              req.session.user_id = new_user.id;
-              res.redirect("/");
-            });
-          })
-          .catch(err => {
+                req.session.user_id = new_user.id;
+                res.redirect("/dashboard");
+            })
+        })
+        .catch(err => {
             req.session.errors = err.errors.map(e => e.message);
             res.redirect("/register");
-          })
+        })
+    });
 
 });
 
@@ -43,15 +42,14 @@ auth_router.post('/login', isLoggedIn, (req, res) => {
 
     if (!username || !password) {
         req.session.errors = ['double check your login info was correct and try again'];
-
         return res.redirect('/login');
     }
-
     User.findOne({
         where: {
             username
         }
     }).then(async user => {
+        
         if (!user) {
             req.session.errors = ['u do not exist yet'];
             return res.redirect('/login');
@@ -65,7 +63,6 @@ auth_router.post('/login', isLoggedIn, (req, res) => {
         }
         req.session.save(() => {
             req.session.user_id;
-
             res.redirect('/');
         });
     });

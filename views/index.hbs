@@ -1,4 +1,10 @@
 
 <div class="welcome-container">
+{{#if user}}
+   Hello {{user.username}}! <a href="/new_post">Make a new post!</a>
+
+{{else}}
    Welcome to my little open source tech blog! Please login or register to begin posting! ♡ ♡ ♡ ♡ 
+
+{{/if}}
 </div>

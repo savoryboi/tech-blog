@@ -14,16 +14,21 @@
     <header>
         <nav class="navbar">
         {{#if user}}
-            <h2 class="username_display">{{user.username}}</h2>
+            <h4 class="username_display">logged in as @{{user.dataValues.username}}</h4>
 
         {{else}}
-            <h2 class="username_display">techblogtitles</h2>
+            <h2 class="username_display">>>>a_tech_blog</h2>
         {{/if}}
-            <a href="/posts"><h2>Post Board</h2></a>
+            <a href="/dashboard"><h2>Dashboard</h2></a>
             
             <div class="link-container">
+            {{#if user}}
+            <a href="/new_post"></a>
+            <a href="/auth/logout">Logout</a>
+            {{else}}
             <a href="/login"><h2>Login</h2></a>
             <a href="/register"><h2>Register</h2></nav></a>
+            {{/if}}
             </div>
         </nav>
     </header>
