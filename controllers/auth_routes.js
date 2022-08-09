@@ -62,8 +62,8 @@ auth_router.post('/login', isLoggedIn, (req, res) => {
             res.redirect('/login');
         }
         req.session.save(() => {
-            req.session.user_id;
-            res.redirect('/');
+            req.session.user_id = user.id;
+            res.redirect('/dashboard');
         });
     });
 });

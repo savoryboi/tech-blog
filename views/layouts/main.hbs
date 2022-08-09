@@ -16,10 +16,10 @@
         {{#if user}}
             <h4 class="username_display">logged in as @{{user.dataValues.username}}</h4>
 
+            <a href="/dashboard"><h2>{{user.dataValues.username}}'s dashboard</h2></a>
         {{else}}
             <h2 class="username_display">>>>a_tech_blog</h2>
         {{/if}}
-            <a href="/dashboard"><h2>Dashboard</h2></a>
             
             <div class="link-container">
             {{#if user}}
@@ -36,6 +36,6 @@
     <main>
         {{{body}}}
     </main>
-    <script src="/front/js/front.js"
+    <script src="js/front.js"
 </body>
 </html>

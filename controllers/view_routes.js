@@ -26,6 +26,15 @@ view_routes.get('/register', (req, res) => {
 });
 
 view_routes.get('/dashboard', (req, res) => {
+    if(req.session.user_id) {
+        return User.findByPk(req.session.user_id, {
+            include: Post
+        }).then(user => {
+            console.log(user)
+            const userData = user.dataValues
+            res.render('dashboard', {user: {...user}})
+        })
+    }
     res.render('dashboard')
 });
 
