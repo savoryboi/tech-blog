@@ -13,6 +13,7 @@ require('dotenv').config();
 
 const view_routes = require('./controllers/view_routes');
 const auth_routes = require('./controllers/auth_routes')
+const blog_routes = require('./controllers/blog_routes')
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use(
 
 app.use('/', view_routes);
 app.use('/auth', auth_routes);
+app.use('/blog', blog_routes)
 
 
 db.sync({ force: false }).then(() => {

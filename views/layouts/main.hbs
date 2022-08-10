@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tech blog</title>
 
+  <script src="https://kit.fontawesome.com/44c011479b.js" crossorigin="anonymous"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Comfortaa:wght@300&family=Inspiration&family=Play&family=Source+Code+Pro:wght@200;300;400&family=Trispace:wght@100&family=VT323&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
@@ -22,13 +24,9 @@
         {{/if}}
             
             <div class="link-container">
-            {{#if user}}
-            <a href="/new_post"></a>
-            <a href="/auth/logout">Logout</a>
-            {{else}}
-            <a href="/login"><h2>Login</h2></a>
-            <a href="/register"><h2>Register</h2></nav></a>
-            {{/if}}
+                    <a href="/login"><h2>Login</h2></a>
+                    <a href="/register"><h2>Register</h2></a>
+                    <a href="/auth/logout"><h2>Logout</h2></a>
             </div>
         </nav>
     </header>
@@ -36,6 +34,6 @@
     <main>
         {{{body}}}
     </main>
-    <script src="js/front.js"
+    <script src="js/front.js"></script>
 </body>
 </html>

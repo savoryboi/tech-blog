@@ -1,20 +1,21 @@
-const User = require('../models/User');
-const Post = require('../models/Post')
+const {User} = require('../models');
+const {Post} = require('../models')
 
 const view_routes = require('express').Router();
 
 
 view_routes.get('/', (req, res) => {
     if(req.session.user_id) {
-        return User.findByPk(req.session.user_id, {
-            include: Post
-        }).then(user => {
+        return User.findByPk(req.session.user_id)
+        .then(user => {
             console.log(user)
-            const userData = user.dataValues
-            res.render('dashboard', {user: {...user}})
+            res.redirect('/dashboard'); // use redirect 
+            // const userData = user.dataValues
+            // res.render('index', {user: {...user}})
         })
+    } else {
+        res.render('index')
     }
-    res.render('index')
 });
 
 view_routes.get('/login', (req, res) =>{
@@ -27,12 +28,11 @@ view_routes.get('/register', (req, res) => {
 
 view_routes.get('/dashboard', (req, res) => {
     if(req.session.user_id) {
-        return User.findByPk(req.session.user_id, {
-            include: Post
-        }).then(user => {
-            console.log(user)
-            const userData = user.dataValues
-            res.render('dashboard', {user: {...user}})
+        console.log('fired')
+        return Post.findAll()
+        .then(posts => {
+            console.log({...posts})
+            res.render('dashboard', {post: {...posts}})
         })
     }
     res.render('dashboard')

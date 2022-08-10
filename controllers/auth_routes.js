@@ -1,11 +1,11 @@
 const auth_router = require('express').Router()
-const User = require("../models/User");
+const { User } = require("../models");
 const { isLoggedIn } = require('./helpers');
 
 
 auth_router.post('/register', isLoggedIn, (req, res) => {
     const { username, password } = req.body;
-    console.log(username)
+
     if(!username || !password) {
         req.session.errors = ["Please check your credentials and try again."];
         return res.redirect("/register");
@@ -16,13 +16,16 @@ auth_router.post('/register', isLoggedIn, (req, res) => {
             username
         }
     }).then(user => {
+        console.log('err')
         if(user) {
             req.session.errors = ["somone got that username, let's try that agan."]
+            console.log('stopped before creating');
             return res.redirect('/register')
         }
-        
-        User.create(req.body)
+
+        else { User.create(req.body)
         .then(new_user => {
+            console.log('creating user')
             req.session.save(() => {
                 req.session.user_id = new_user.id;
                 res.redirect("/dashboard");
@@ -32,6 +35,7 @@ auth_router.post('/register', isLoggedIn, (req, res) => {
             req.session.errors = err.errors.map(e => e.message);
             res.redirect("/register");
         })
+    }
     });
 
 });
