@@ -7,7 +7,8 @@ const {Post} = require("../models/");
 
 blog_router.post('/', (req, res) => {
 
-    Post.create(req.body) 
+    Post.create(req.body, 
+) 
     .then(new_post => {
         console.log('blog post added successfully')
     });
